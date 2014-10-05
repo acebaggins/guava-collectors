@@ -8,7 +8,6 @@ import java.util.stream.Collector;
 import java.util.stream.Collector.Characteristics;
 
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -16,7 +15,6 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ImmutableSortedSet.Builder;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Multimap;
-import com.google.common.reflect.ImmutableTypeToInstanceMap;
 
 public class GuavaCollectors {	
 	static final Set<Characteristics> EMPTY = ImmutableSet.of();
@@ -53,18 +51,6 @@ public class GuavaCollectors {
 		};
 		
 		return new ImmutableBiMapCollector<T, K, V>( accumulator );
-	}
-	
-	@SuppressWarnings("unchecked")
-	public static <T, K extends T> Collector<T,?,ImmutableClassToInstanceMap<T>> immutableClassToInstanceMap(){
-		
-		return (Collector<T, ?, ImmutableClassToInstanceMap<T>>) new ImmutableClassToInstanceCollector<T, K>();
-	}
-	
-	@SuppressWarnings("unchecked")
-	public static <T, K extends T> Collector<T,?,ImmutableTypeToInstanceMap<T>> immutableTypeToInstanceMap(){
-		
-		return (Collector<T, ?, ImmutableTypeToInstanceMap<T>>) new ImmutableTypeToInstanceCollector<T, K>();
 	}
 	
 	public static <T, R, C, V> Collector<T,?,ImmutableTable<R,C,V>> immutableTable( 
