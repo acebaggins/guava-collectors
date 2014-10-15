@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableList;
 public abstract class ImmutableCollectionTest {	
 	public abstract <T, E extends ImmutableCollection<T>> Collector<T, ?, E > getCollector();
 	public abstract <T> Supplier<Collection<T>> getComparisonCollection();
+		
 	
 	@Test
 	public void testCollection_1(){
@@ -40,27 +41,11 @@ public abstract class ImmutableCollectionTest {
 	}
 	
 	private List<String> strings;	
-	private List<String> buildStrings(){
+	protected List<String> buildStrings(){
 		if( strings == null )
-			try {
-				
+			try {				
 				List<String> tempStrings = Files.readAllLines( Paths.get("src", "test", "java", "fullbook.txt" ));
-		
-				
 				this.strings = ImmutableList.<String>builder()
-						.addAll( tempStrings )
-						.addAll( tempStrings )
-						.addAll( tempStrings )
-						.addAll( tempStrings )
-						.addAll( tempStrings )
-						.addAll( tempStrings )
-						.addAll( tempStrings )
-						.addAll( tempStrings )
-						.addAll( tempStrings )
-						.addAll( tempStrings )
-						.addAll( tempStrings )
-						.addAll( tempStrings )
-						.addAll( tempStrings )
 						.addAll( tempStrings )
 						.addAll( tempStrings )
 						.build();
