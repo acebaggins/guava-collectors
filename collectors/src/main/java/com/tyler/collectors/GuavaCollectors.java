@@ -1,7 +1,6 @@
 package com.tyler.collectors;
 
 import java.util.Comparator;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
@@ -10,22 +9,22 @@ import java.util.stream.Collector.Characteristics;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ImmutableSortedSet.Builder;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Multiset;
 import com.google.common.collect.Table;
 
 public class GuavaCollectors {	
-	static final Set<Characteristics> EMPTY = ImmutableSet.of();
-	static final Set<Characteristics> UNORDERED_ONLY = ImmutableSet.of(Characteristics.UNORDERED);
-	static final Set<Characteristics> IDENTITY_ONLY = ImmutableSet.of( Characteristics.IDENTITY_FINISH );
 
-	public static <T> Collector<T, ?, ImmutableList<T>> immutableList() {
+	public static <T> Collector<T, ?, ImmutableList<T>> asImmutableList() {
 		
 		return Collector.of(
 				ImmutableList.Builder<T>::new, 
@@ -34,7 +33,7 @@ public class GuavaCollectors {
 				ImmutableList.Builder<T>::build);
 	}
 	
-	public static <T> Collector<T, ?, ImmutableSet<T>> immutableSet() {
+	public static <T> Collector<T, ?, ImmutableSet<T>> asImmutableSet() {
 		
 		return Collector.of(
 				ImmutableSet.Builder<T>::new, 
@@ -43,16 +42,41 @@ public class GuavaCollectors {
 				ImmutableSet.Builder<T>::build);
 	}
 	
-	public static <T extends Comparable<?>> Collector<T, ImmutableSortedSet.Builder<T>, ImmutableSortedSet<T>> immutableSortedSet() {		
+	public static <T> Collector<T, ?, ImmutableMultiset<T>> asImmutableMultiSet() {
+		
+		return Collector.of(
+				ImmutableMultiset.Builder<T>::new, 
+				ImmutableMultiset.Builder<T>::add,
+				(l, r) -> l.addAll(r.build()), 
+				ImmutableMultiset.Builder<T>::build);
+	}
+	
+	public static <T> Collector<T, ?, Multiset<T>> asMultiSet(){		
+		
+		return asMultiSet( HashMultiset::create );
+	}
+	
+	public static <T> Collector<T, ?, Multiset<T>> asMultiSet( final Supplier<Multiset<T>> supplier){		
+		
+		return Collector.of(
+				supplier,
+				( set, t ) -> set.add( t ),
+				( l, r ) -> { l.addAll( r ); return l; },
+				l -> l,
+				Characteristics.IDENTITY_FINISH );
+	}
+	
+	
+	public static <T extends Comparable<?>> Collector<T, ImmutableSortedSet.Builder<T>, ImmutableSortedSet<T>> asImmutableSortedSet() {		
 		
 		return Collector.of(
 				ImmutableSortedSet::<T> naturalOrder,
 				ImmutableSortedSet.Builder<T>::add,
 				(l, r) -> l.addAll(r.build()), 
-				ImmutableSortedSet.Builder<T>::build);
+				ImmutableSortedSet.Builder<T>::build );
 	}	
 	
-	public static <T extends Comparable<?>> Collector<T, ImmutableSortedSet.Builder<T>, ImmutableSortedSet<T>> immutableSortedSetReversed() {		
+	public static <T extends Comparable<?>> Collector<T, ImmutableSortedSet.Builder<T>, ImmutableSortedSet<T>> asImmutableSortedSetReversed() {		
 		
 		return Collector.of(
 				ImmutableSortedSet::<T> reverseOrder,
@@ -62,7 +86,7 @@ public class GuavaCollectors {
 				Characteristics.UNORDERED);
 	}		
 	
-	public static <T> Collector<T, ?, ImmutableSortedSet<T>> immutableSortedSet( final Supplier<Builder<T>> supplier ){
+	public static <T> Collector<T, ?, ImmutableSortedSet<T>> asImmutableSortedSet( final Supplier<Builder<T>> supplier ){
 		
 		return Collector.of(
 				supplier,
@@ -72,7 +96,7 @@ public class GuavaCollectors {
 				Characteristics.UNORDERED);
 	}
 	
-	public static <T> Collector<T, ?, ImmutableSortedSet<T>> immutableSortedSet( final Comparator<T> supplier ){;
+	public static <T> Collector<T, ?, ImmutableSortedSet<T>> asImmutableSortedSet( final Comparator<T> supplier ){;
 		
 	return Collector.of(
 				() -> ImmutableSortedSet.orderedBy( supplier ),
@@ -82,7 +106,7 @@ public class GuavaCollectors {
 				Characteristics.UNORDERED);	
 	}
 
-	public static <T, K, V> Collector<T,?,ImmutableMap<K,V>> immutableMap(
+	public static <T, K, V> Collector<T,?,ImmutableMap<K,V>> asImmutableMap(
 			final Function<T,K> keyFunction,
 			final Function<T,V> valueFunction ){
 		
@@ -93,7 +117,7 @@ public class GuavaCollectors {
 				ImmutableMap.Builder<K,V>::build);
 	}
 
-	public static <T, K, V> Collector<T,?,ImmutableBiMap<K,V>> immutableBiMap(
+	public static <T, K, V> Collector<T,?,ImmutableBiMap<K,V>> asImmutableBiMap(
 			final Function<T,K> keyFunction,
 			final Function<T,V> valueFunction ){
 		
@@ -125,7 +149,7 @@ public class GuavaCollectors {
 				Characteristics.IDENTITY_FINISH	);		
 	}
 
-	public static <T, R, C, V> Collector<T,?,ImmutableTable<R,C,V>> immutableTable( 
+	public static <T, R, C, V> Collector<T,?,ImmutableTable<R,C,V>> asImmutableTable( 
 			final Function<T,R> rowFunction,
 			final Function<T,C> columnFunction,
 			final Function<T,V> valueFunction ){
@@ -164,7 +188,7 @@ public class GuavaCollectors {
 				Characteristics.IDENTITY_FINISH);		
 	}
 
-	public static <T, M extends Multimap<K,V>, K, V> Collector<T, ?, M> multimap(
+	public static <T, M extends Multimap<K,V>, K, V> Collector<T, ?, M> asMultimap(
 			final Supplier<M> supplier,
 			final Function<T,K> keyFunction,
 			final Function<T,V> valueFunction ){
@@ -177,7 +201,7 @@ public class GuavaCollectors {
 				Characteristics.IDENTITY_FINISH	 );
 	}
 
-	public static <T, K, V, M extends Multimap<K,V>> Collector<T,?,M> iterableMultimap(
+	public static <T, K, V, M extends Multimap<K,V>> Collector<T,?,M> asMultimapFromIterable(
 			final Supplier<M> supplier,
 			final Function<T,K> keyFunction, 
 			final Function<T, ? extends Iterable<V>> valueFunction ){

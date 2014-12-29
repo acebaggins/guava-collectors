@@ -32,7 +32,7 @@ public class MultimapCollectorTest {
 		expected.put(2, "a");
 		expected.put(3, "c");
 		
-		final ListMultimap<Integer,String> actual = strings.stream().collect( GuavaCollectors.multimap(
+		final ListMultimap<Integer,String> actual = strings.stream().collect( GuavaCollectors.asMultimap(
 				(()-> ListMultimapBuilder.linkedHashKeys().arrayListValues().build()), 
 				string -> Integer.valueOf( string.split("-")[0]),
 				string -> string.split("-")[1]));

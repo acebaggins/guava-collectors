@@ -1,6 +1,6 @@
 package com.tyler.collectors;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +18,7 @@ public class ImmutableListCollectorTest extends ImmutableCollectionTest {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T, E extends ImmutableCollection<T>> Collector<T, ?, E> getCollector() {
-		return (Collector<T, ?, E>) GuavaCollectors.immutableList();		
+		return (Collector<T, ?, E>) GuavaCollectors.asImmutableList();		
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class ImmutableListCollectorTest extends ImmutableCollectionTest {
 	@Test
 	public void testSingleThread_1(){
 		final List<String> getStrings = buildStrings();		
-		final ImmutableList<String> list = getStrings.stream().collect( GuavaCollectors.immutableList() );
+		final ImmutableList<String> list = getStrings.stream().collect( GuavaCollectors.asImmutableList() );
 		
 		assertEquals( getStrings, list );
 	}
@@ -37,7 +37,7 @@ public class ImmutableListCollectorTest extends ImmutableCollectionTest {
 	@Test
 	public void testConcurrent_1(){
 		final List<String> getStrings = buildStrings();		
-		final ImmutableList<String> list = getStrings.parallelStream().collect( GuavaCollectors.immutableList() );
+		final ImmutableList<String> list = getStrings.parallelStream().collect( GuavaCollectors.asImmutableList() );
 		
 		assertEquals( getStrings, list );
 	}

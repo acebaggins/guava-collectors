@@ -45,11 +45,10 @@ public abstract class ImmutableSortedCollectionTest {
 	
 	private boolean isOrderedCorrectly( final Iterable<String> expected, final Iterable<String> actual ){
 		for( int i = 0; i < Iterables.size(expected); i++ )
-			if( !Iterables.get( expected, i).equals( Iterables.get( actual, i)))
+			if( !Iterables.get( expected, i ).equals( Iterables.get( actual, i)))
 				return false;
 		
-		return true;
-		
+		return true;		
 	}
 	
 	private List<String> strings;	
@@ -57,9 +56,7 @@ public abstract class ImmutableSortedCollectionTest {
 		if( strings == null )
 			try {
 				
-				List<String> tempStrings = Files.readAllLines( Paths.get("src", "test", "java", "fullbook.txt" ));
-		
-				
+				List<String> tempStrings = Files.readAllLines( Paths.get("src", "test", "java", "fullbook.txt" ));				
 				this.strings = ImmutableList.<String>builder()
 						.addAll( tempStrings )
 						.addAll( tempStrings )
