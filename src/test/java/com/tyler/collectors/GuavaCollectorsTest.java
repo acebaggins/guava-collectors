@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 
 import org.junit.Test;
 
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
@@ -20,6 +21,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Table;
 import com.google.common.collect.TreeMultiset;
 import com.google.common.primitives.Ints;
 
@@ -185,7 +187,7 @@ public class GuavaCollectorsTest {
 
 	@Test
 	public void testImmutableTable_1() {
-		final ImmutableTable<Integer, String, String> expected = ImmutableTable.<Integer,String,String>builder().putAll(TestHelper.TABLE).build();
+		final Table<Integer, String, String> expected = buildTestTable();
 		
 		final ImmutableTable<Integer, String, String> actual = TestHelper.MAP.entrySet().stream().collect( GuavaCollectors.asImmutableTable( 
 				Entry::getKey, 
@@ -195,9 +197,10 @@ public class GuavaCollectorsTest {
 		assertEquals( expected, actual );
 	}
 	
+	
 	@Test
 	public void testImmutableTable_2() {
-		final ImmutableTable<Integer, String, String> expected = ImmutableTable.<Integer,String,String>builder().putAll(TestHelper.TABLE).build();
+		final Table<Integer, String, String> expected = buildTestTable();
 		
 		final ImmutableTable<Integer, String, String> actual = TestHelper.MAP.entrySet().parallelStream().collect( GuavaCollectors.asImmutableTable( 
 				Entry::getKey, 
@@ -206,7 +209,37 @@ public class GuavaCollectorsTest {
 		
 		assertEquals( expected, actual );
 	}
+	
+	@Test
+	public void testTable_1() {		
+		final Table<Integer, String, String> expected = HashBasedTable.create( buildTestTable() );
+		
+		final Table<Integer, String, String> actual = TestHelper.MAP.entrySet().stream().collect( GuavaCollectors.asTable( 
+				Entry::getKey, 
+				entry -> entry.getKey() + "a",
+				Entry::getValue));
+		
+		assertEquals( expected, actual );
+	}
+	
+	
+	@Test
+	public void testTable_2() {
+		final Table<Integer, String, String> expected = HashBasedTable.create( buildTestTable() );
+		
+		final Table<Integer, String, String> actual = TestHelper.MAP.entrySet().parallelStream().collect( GuavaCollectors.asTable(
+				()-> HashBasedTable.create(),
+				Entry::getKey, 
+				entry -> entry.getKey() + "a",
+				Entry::getValue));
+		
+		assertEquals( expected, actual );
+	}
 
+	private Table<Integer, String, String> buildTestTable(){
+		return ImmutableTable.<Integer,String,String>builder().putAll(TestHelper.TABLE).build();
+	}
+	
 	@Test
 	public void testMultimap() {
 		final Supplier<Multimap<Integer,String>> supplier = () -> MultimapBuilder.hashKeys().linkedListValues().build();
@@ -216,13 +249,33 @@ public class GuavaCollectorsTest {
 		
 		assertEquals( expected, actual );
 	}
-
+	
+	@Test
+	public void testMultimap_Parallel() {
+		final Supplier<Multimap<Integer,String>> supplier = () -> MultimapBuilder.hashKeys().linkedListValues().build();
+		
+		final Multimap<Integer, String> expected = TestHelper.buildMultimap( supplier );		
+		final Multimap<Integer, String> actual = TestHelper.MAP.entrySet().parallelStream().collect( GuavaCollectors.asMultimap( supplier, entry -> entry.getKey() % 1500, Entry::getValue));
+		
+		assertEquals( expected, actual );
+	}
+	
 	@Test
 	public void testIterableMultimap() {
 		final Supplier<Multimap<Integer,String>> supplier = () -> MultimapBuilder.hashKeys().linkedListValues().build();
 		
 		final Multimap<Integer, String> expected = TestHelper.buildMultimap( supplier );		
 		final Multimap<Integer, String> actual = expected.asMap().entrySet().stream().collect( GuavaCollectors.asMultimapFromIterable( supplier, entry -> entry.getKey() % 1500, Entry::getValue));
+		
+		assertEquals( expected, actual );
+	}
+	
+	@Test
+	public void testIterableMultimap_Parallel() {
+		final Supplier<Multimap<Integer,String>> supplier = () -> MultimapBuilder.hashKeys().linkedListValues().build();
+		
+		final Multimap<Integer, String> expected = TestHelper.buildMultimap( supplier );		
+		final Multimap<Integer, String> actual = expected.asMap().entrySet().parallelStream().collect( GuavaCollectors.asMultimapFromIterable( supplier, entry -> entry.getKey() % 1500, Entry::getValue));
 		
 		assertEquals( expected, actual );
 	}

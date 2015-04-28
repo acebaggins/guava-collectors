@@ -32,7 +32,17 @@ public class ImmutableSortedSetCollectorTest {
 		@Override
 		public <T extends Comparable<?>, E extends ImmutableCollection<T>> Collector<T, ?, E> getCollector() {
 			return (Collector<T, ?, E>) GuavaCollectors.asImmutableSortedSet( () -> ImmutableSortedSet.reverseOrder() );
-		}
+		}		
+	}
+	
+	public static class ReverseOrder2 extends ImmutableSortedCollectionTest { 
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public <T extends Comparable<?>, E extends ImmutableCollection<T>> Collector<T, ?, E> getCollector() {
+			return (Collector<T, ?, E>) GuavaCollectors.asImmutableSortedSetReversed();
+		}	
+		
 	}
 	
 	public static class FromComparator extends ImmutableSortedCollectionTest {

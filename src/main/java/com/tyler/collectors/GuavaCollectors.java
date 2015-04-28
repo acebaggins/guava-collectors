@@ -144,13 +144,14 @@ public class GuavaCollectors {
 
 	}
 
-	public static <T, M extends BiMap<K,V>, K, V> Collector<T,?,BiMap<K,V>> asBiMap(			
+	public static <T, M extends BiMap<K,V>, K, V> Collector<T,?,BiMap<K,V>> asHashBiMap(			
 			final Function<T,K> keyFunction,
 			final Function<T,V> valueFunction ){
 
 		return asBiMap( HashBiMap::<K,V>create, keyFunction, valueFunction );		
 	}
 
+	
 	public static <T, K, V> Collector<T,?,BiMap<K,V>> asBiMap(
 			final Supplier<BiMap<K,V>> supplier,
 			final Function<T,K> keyFunction,

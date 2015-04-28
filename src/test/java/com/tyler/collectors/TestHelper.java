@@ -26,7 +26,7 @@ public class TestHelper {
 
 	public static final List<String> buildLines(){
 		try {
-			return Files.readAllLines( Paths.get("src", "test", "java", "fullbook.txt" ));
+			return Files.readAllLines( Paths.get("src", "test", "resources", "fullbook.txt" ));
 
 		} catch (IOException e) {
 			throw new RuntimeException( e );
@@ -59,12 +59,5 @@ public class TestHelper {
 		
 		MAP.entrySet().stream().forEach( entry -> builder.put( entry.getKey(), entry.getKey() + "a", entry.getValue() ));
 		return builder.build();		
-	}
-	
-	public static final Table<Integer, String, String> buildImmutableTable( final Supplier<Table<Integer,String,String>> supplier ){
-		final Table<Integer, String, String> table = supplier.get();
-		
-		MAP.entrySet().stream().forEach( entry -> table.put( entry.getKey(), entry.getKey() + "a", entry.getValue() ));
-		return table;	
 	}
 }
