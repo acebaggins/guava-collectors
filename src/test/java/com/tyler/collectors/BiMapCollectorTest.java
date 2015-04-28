@@ -23,7 +23,7 @@ public class BiMapCollectorTest {
 		final List<String> list = Lists.newArrayList();
 		
 		final BiMap<String, String> expected = HashBiMap.create();
-		final BiMap<String, String> actual = list.stream().collect( GuavaCollectors.asHashBiMap(KEY_FUNCTION, VALUE_FUNCTION ));
+		final BiMap<String, String> actual = list.stream().collect( GuavaCollectors.toBiMap(KEY_FUNCTION, VALUE_FUNCTION ));
 	
 		assertEquals( expected, actual );
 	}
@@ -35,7 +35,7 @@ public class BiMapCollectorTest {
 		expected.put("oneKey", "oneValue");
 		expected.put("twoKey", "twoValue");		
 		
-		final BiMap<String, String> actual = list.stream().collect( GuavaCollectors.asHashBiMap( KEY_FUNCTION, VALUE_FUNCTION ));
+		final BiMap<String, String> actual = list.stream().collect( GuavaCollectors.toBiMap( KEY_FUNCTION, VALUE_FUNCTION ));
 		
 		assertEquals( expected, actual );
 	}
@@ -43,8 +43,8 @@ public class BiMapCollectorTest {
 	@Test
 	public void testSupplier(){
 		final List<String> list = Lists.newArrayList("one","two");
-		final BiMap<String, String> expected = list.stream().collect( GuavaCollectors.asHashBiMap(KEY_FUNCTION, VALUE_FUNCTION));
-		final BiMap<String, String> actual = list.stream().collect( GuavaCollectors.asBiMap(() -> HashBiMap.create(), KEY_FUNCTION, VALUE_FUNCTION));
+		final BiMap<String, String> expected = list.stream().collect( GuavaCollectors.toBiMap(KEY_FUNCTION, VALUE_FUNCTION));
+		final BiMap<String, String> actual = list.stream().collect( GuavaCollectors.toBiMap(() -> HashBiMap.create(), KEY_FUNCTION, VALUE_FUNCTION));
 	
 		assertEquals( expected, actual );
 		assertEquals( HashBiMap.class, actual.getClass());		
@@ -53,8 +53,8 @@ public class BiMapCollectorTest {
 	@Test
 	public void testParallel(){
 		final Set<String> list = Sets.newHashSet(TestHelper.LINES);
-		final BiMap<String, String> expected = list.stream().collect( GuavaCollectors.asHashBiMap(KEY_FUNCTION, VALUE_FUNCTION));
-		final BiMap<String, String> actual = list.parallelStream().collect( GuavaCollectors.asBiMap(() -> HashBiMap.create(), KEY_FUNCTION, VALUE_FUNCTION));
+		final BiMap<String, String> expected = list.stream().collect( GuavaCollectors.toBiMap(KEY_FUNCTION, VALUE_FUNCTION));
+		final BiMap<String, String> actual = list.parallelStream().collect( GuavaCollectors.toBiMap(() -> HashBiMap.create(), KEY_FUNCTION, VALUE_FUNCTION));
 	
 		assertEquals( expected, actual );
 		assertEquals( HashBiMap.class, actual.getClass());	

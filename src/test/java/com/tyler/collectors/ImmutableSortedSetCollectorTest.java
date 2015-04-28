@@ -17,7 +17,7 @@ public class ImmutableSortedSetCollectorTest {
 		@SuppressWarnings("unchecked")
 		@Override
 		public <T extends Comparable<?>, E extends ImmutableCollection<T>> Collector<T, ?, E> getCollector() {
-			return (Collector<T, ?, E>) GuavaCollectors.asImmutableSortedSet( () -> ImmutableSortedSet.naturalOrder() );
+			return (Collector<T, ?, E>) GuavaCollectors.toImmutableSortedSet( () -> ImmutableSortedSet.naturalOrder() );
 		}
 
 		@Override
@@ -31,7 +31,7 @@ public class ImmutableSortedSetCollectorTest {
 		@SuppressWarnings("unchecked")
 		@Override
 		public <T extends Comparable<?>, E extends ImmutableCollection<T>> Collector<T, ?, E> getCollector() {
-			return (Collector<T, ?, E>) GuavaCollectors.asImmutableSortedSet( () -> ImmutableSortedSet.reverseOrder() );
+			return (Collector<T, ?, E>) GuavaCollectors.toImmutableSortedSet( () -> ImmutableSortedSet.reverseOrder() );
 		}		
 	}
 	
@@ -40,7 +40,7 @@ public class ImmutableSortedSetCollectorTest {
 		@SuppressWarnings("unchecked")
 		@Override
 		public <T extends Comparable<?>, E extends ImmutableCollection<T>> Collector<T, ?, E> getCollector() {
-			return (Collector<T, ?, E>) GuavaCollectors.asImmutableSortedSetReversed();
+			return (Collector<T, ?, E>) GuavaCollectors.toImmutableSortedSetReversed();
 		}	
 		
 	}
@@ -51,7 +51,7 @@ public class ImmutableSortedSetCollectorTest {
 		@Override
 		public <T extends Comparable<?>, E extends ImmutableCollection<T>> Collector<T, ?, E> getCollector() {
 			Comparator<String> comp = (t1, t2) -> Ints.compare(t1.hashCode(), t2.hashCode() );
-			return (Collector<T, ?, E>) GuavaCollectors.asImmutableSortedSet ( comp );
+			return (Collector<T, ?, E>) GuavaCollectors.toImmutableSortedSet ( comp );
 		} 		
 	}
 }

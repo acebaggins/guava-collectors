@@ -39,7 +39,7 @@ import com.google.common.collect.Table;
 
 public class GuavaCollectors {	
 
-	public static <T> Collector<T, ?, ImmutableList<T>> asImmutableList() {
+	public static <T> Collector<T, ?, ImmutableList<T>> toImmutableList() {
 
 		return Collector.of(
 				ImmutableList.Builder<T>::new, 
@@ -48,7 +48,7 @@ public class GuavaCollectors {
 				ImmutableList.Builder<T>::build);
 	}
 
-	public static <T> Collector<T, ?, ImmutableSet<T>> asImmutableSet() {
+	public static <T> Collector<T, ?, ImmutableSet<T>> toImmutableSet() {
 
 		return Collector.of(
 				ImmutableSet.Builder<T>::new, 
@@ -57,7 +57,7 @@ public class GuavaCollectors {
 				ImmutableSet.Builder<T>::build);
 	}
 
-	public static <T> Collector<T, ?, ImmutableMultiset<T>> asImmutableMultiSet() {
+	public static <T> Collector<T, ?, ImmutableMultiset<T>> toImmutableMultiSet() {
 
 		return Collector.of(
 				ImmutableMultiset.Builder<T>::new, 
@@ -66,12 +66,12 @@ public class GuavaCollectors {
 				ImmutableMultiset.Builder<T>::build);
 	}
 
-	public static <T> Collector<T, ?, Multiset<T>> asMultiSet(){		
+	public static <T> Collector<T, ?, Multiset<T>> toMultiSet(){		
 
-		return asMultiSet( HashMultiset::create );
+		return toMultiSet( HashMultiset::create );
 	}
 
-	public static <T> Collector<T, ?, Multiset<T>> asMultiSet( final Supplier<Multiset<T>> supplier){		
+	public static <T> Collector<T, ?, Multiset<T>> toMultiSet( final Supplier<Multiset<T>> supplier ){		
 
 		return Collector.of(
 				supplier,
@@ -82,7 +82,7 @@ public class GuavaCollectors {
 	}
 
 
-	public static <T extends Comparable<?>> Collector<T, ImmutableSortedSet.Builder<T>, ImmutableSortedSet<T>> asImmutableSortedSet() {		
+	public static <T extends Comparable<?>> Collector<T, ImmutableSortedSet.Builder<T>, ImmutableSortedSet<T>> toImmutableSortedSet() {		
 
 		return Collector.of(
 				ImmutableSortedSet::<T> naturalOrder,
@@ -91,7 +91,7 @@ public class GuavaCollectors {
 				ImmutableSortedSet.Builder<T>::build );
 	}	
 
-	public static <T extends Comparable<?>> Collector<T, ImmutableSortedSet.Builder<T>, ImmutableSortedSet<T>> asImmutableSortedSetReversed() {		
+	public static <T extends Comparable<?>> Collector<T, ImmutableSortedSet.Builder<T>, ImmutableSortedSet<T>> toImmutableSortedSetReversed() {		
 
 		return Collector.of(
 				ImmutableSortedSet::<T> reverseOrder,
@@ -101,7 +101,7 @@ public class GuavaCollectors {
 				Characteristics.UNORDERED);
 	}		
 
-	public static <T> Collector<T, ?, ImmutableSortedSet<T>> asImmutableSortedSet( final Supplier<Builder<T>> supplier ){
+	public static <T> Collector<T, ?, ImmutableSortedSet<T>> toImmutableSortedSet( final Supplier<Builder<T>> supplier ){
 
 		return Collector.of(
 				supplier,
@@ -111,7 +111,7 @@ public class GuavaCollectors {
 				Characteristics.UNORDERED);
 	}
 
-	public static <T> Collector<T, ?, ImmutableSortedSet<T>> asImmutableSortedSet( final Comparator<T> supplier ){;
+	public static <T> Collector<T, ?, ImmutableSortedSet<T>> toImmutableSortedSet( final Comparator<T> supplier ){;
 
 	return Collector.of(
 			() -> ImmutableSortedSet.orderedBy( supplier ),
@@ -121,7 +121,7 @@ public class GuavaCollectors {
 			Characteristics.UNORDERED);	
 	}
 
-	public static <T, K, V> Collector<T,?,ImmutableMap<K,V>> asImmutableMap(
+	public static <T, K, V> Collector<T,?,ImmutableMap<K,V>> toImmutableMap(
 			final Function<T,K> keyFunction,
 			final Function<T,V> valueFunction ){
 
@@ -132,7 +132,7 @@ public class GuavaCollectors {
 				ImmutableMap.Builder<K,V>::build);
 	}
 
-	public static <T, K, V> Collector<T,?,ImmutableBiMap<K,V>> asImmutableBiMap(
+	public static <T, K, V> Collector<T,?,ImmutableBiMap<K,V>> toImmutableBiMap(
 			final Function<T,K> keyFunction,
 			final Function<T,V> valueFunction ){
 
@@ -144,15 +144,15 @@ public class GuavaCollectors {
 
 	}
 
-	public static <T, M extends BiMap<K,V>, K, V> Collector<T,?,BiMap<K,V>> asHashBiMap(			
+	public static <T, M extends BiMap<K,V>, K, V> Collector<T,?,BiMap<K,V>> toBiMap(			
 			final Function<T,K> keyFunction,
 			final Function<T,V> valueFunction ){
 
-		return asBiMap( HashBiMap::<K,V>create, keyFunction, valueFunction );		
+		return toBiMap( HashBiMap::<K,V>create, keyFunction, valueFunction );		
 	}
 
 	
-	public static <T, K, V> Collector<T,?,BiMap<K,V>> asBiMap(
+	public static <T, K, V> Collector<T,?,BiMap<K,V>> toBiMap(
 			final Supplier<BiMap<K,V>> supplier,
 			final Function<T,K> keyFunction,
 			final Function<T,V> valueFunction ){
@@ -165,7 +165,7 @@ public class GuavaCollectors {
 				Characteristics.IDENTITY_FINISH	);		
 	}
 
-	public static <T, R, C, V> Collector<T,?,ImmutableTable<R,C,V>> asImmutableTable( 
+	public static <T, R, C, V> Collector<T,?,ImmutableTable<R,C,V>> toImmutableTable( 
 			final Function<T,R> rowFunction,
 			final Function<T,C> columnFunction,
 			final Function<T,V> valueFunction ){
@@ -177,7 +177,7 @@ public class GuavaCollectors {
 				ImmutableTable.Builder<R,C,V>::build);		
 	}
 
-	public static <T, R, C, V> Collector<T,?,Table<R,C,V>> asTable( 
+	public static <T, R, C, V> Collector<T,?,Table<R,C,V>> toTable( 
 			final Function<T,R> rowFunction,
 			final Function<T,C> columnFunction,
 			final Function<T,V> valueFunction ){
@@ -190,7 +190,7 @@ public class GuavaCollectors {
 				Characteristics.IDENTITY_FINISH);		
 	}
 
-	public static <T, R, C, V> Collector<T,?,Table<R,C,V>> asTable( 
+	public static <T, R, C, V> Collector<T,?,Table<R,C,V>> toTable( 
 			final Supplier<Table<R,C,V>> supplier,
 			final Function<T,R> rowFunction,
 			final Function<T,C> columnFunction,
@@ -204,7 +204,7 @@ public class GuavaCollectors {
 				Characteristics.IDENTITY_FINISH);		
 	}
 
-	public static <T, M extends Multimap<K,V>, K, V> Collector<T, ?, M> asMultimap(
+	public static <T, M extends Multimap<K,V>, K, V> Collector<T, ?, M> toMultimap(
 			final Supplier<M> supplier,
 			final Function<T,K> keyFunction,
 			final Function<T,V> valueFunction ){
@@ -217,7 +217,7 @@ public class GuavaCollectors {
 				Characteristics.IDENTITY_FINISH	 );
 	}
 
-	public static <T, K, V, M extends Multimap<K,V>> Collector<T,?,M> asMultimapFromIterable(
+	public static <T, K, V, M extends Multimap<K,V>> Collector<T,?,M> toMultimapFromIterable(
 			final Supplier<M> supplier,
 			final Function<T,K> keyFunction, 
 			final Function<T, ? extends Iterable<V>> valueFunction ){

@@ -12,7 +12,7 @@ public class ImmutableSetCollectorTest extends ImmutableCollectionTest {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T, E extends ImmutableCollection<T>> Collector<T, ?, E> getCollector() {
-		return (Collector<T, ?, E>) GuavaCollectors.asImmutableSet();
+		return (Collector<T, ?, E>) GuavaCollectors.toImmutableSet();
 	}
 
 	@Override

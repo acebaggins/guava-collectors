@@ -18,7 +18,7 @@ public class ImmutableListCollectorTest extends ImmutableCollectionTest {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T, E extends ImmutableCollection<T>> Collector<T, ?, E> getCollector() {
-		return (Collector<T, ?, E>) GuavaCollectors.asImmutableList();		
+		return (Collector<T, ?, E>) GuavaCollectors.toImmutableList();		
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class ImmutableListCollectorTest extends ImmutableCollectionTest {
 	@Test
 	public void testSingleThread_1(){
 		final List<String> getStrings = buildStrings();		
-		final ImmutableList<String> list = getStrings.stream().collect( GuavaCollectors.asImmutableList() );
+		final ImmutableList<String> list = getStrings.stream().collect( GuavaCollectors.toImmutableList() );
 		
 		assertEquals( getStrings, list );
 	}
@@ -37,7 +37,7 @@ public class ImmutableListCollectorTest extends ImmutableCollectionTest {
 	@Test
 	public void testConcurrent_1(){
 		final List<String> getStrings = buildStrings();		
-		final ImmutableList<String> list = getStrings.parallelStream().collect( GuavaCollectors.asImmutableList() );
+		final ImmutableList<String> list = getStrings.parallelStream().collect( GuavaCollectors.toImmutableList() );
 		
 		assertEquals( getStrings, list );
 	}
