@@ -94,7 +94,7 @@ public class GuavaCollectorsTest {
 		final Multiset<String> expected = HashMultiset.create();
 		expected.addAll( TestHelper.STRINGS );
 		
-		final Multiset<String> actual = TestHelper.STRINGS.stream().collect( GuavaCollectors.toImmutableMultiSet() );
+		final Multiset<String> actual = TestHelper.STRINGS.stream().collect( GuavaCollectors.toImmutableMultiset() );
 		
 		assertEquals( expected, actual );
 	}
@@ -104,7 +104,7 @@ public class GuavaCollectorsTest {
 		final Multiset<String> expected = HashMultiset.create();
 		expected.addAll( TestHelper.STRINGS );
 		
-		final Multiset<String> actual = TestHelper.STRINGS.parallelStream().collect( GuavaCollectors.toImmutableMultiSet() );
+		final Multiset<String> actual = TestHelper.STRINGS.parallelStream().collect( GuavaCollectors.toImmutableMultiset() );
 		
 		assertEquals( expected, actual );
 	}

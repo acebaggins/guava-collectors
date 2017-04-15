@@ -57,7 +57,7 @@ public class GuavaCollectors {
 				ImmutableSet.Builder<T>::build);
 	}
 
-	public static <T> Collector<T, ?, ImmutableMultiset<T>> toImmutableMultiSet() {
+	public static <T> Collector<T, ?, ImmutableMultiset<T>> toImmutableMultiset() {
 
 		return Collector.of(
 				ImmutableMultiset.Builder<T>::new, 
