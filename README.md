@@ -2,7 +2,14 @@ guava-collectors
 ================
 
 #### Note (4/15/2017)
-This library has been made obsolete by [ Guava 21.0 ](https://github.com/google/guava/wiki/Release21)
+This library has been made obsolete by [Guava 21.0.](https://github.com/google/guava/wiki/Release21)
+
+If you're using Guava 21.0 then it is suggested to use their method that is part of the immutable collection classes.
+
+
+
+
+
 
 ### What?
 Collectors for Guava collections that mirror Java's Collectors class.
@@ -18,22 +25,28 @@ If you're comfortable using the Collectors class then this shouldn't be anything
 As an example,
 
 ```java
-final List<String> mutableList = getSomeCollection().stream().collect( Collectors.toList( object -> object.toString() );
-final List<String> betterList = getSomeCollection().stream().collect( GuavaCollectors.toImmutableList( object -> object.toString() );
-```
-
-Parallel streams are also supported so there is no need for performance to suffer to get a Guava collection.
-
-```java
-final List<String> immutableList = getSomeCollection().stream().collect( GuavaCollectors.toImmutableList( object -> object.toString() );
-final List<String> fasterList = getSomeCollection().parallelStream().collect( GuavaCollectors.toImmutableList( object -> object.toString() );
+List<String> mutableList = getStream().map(Object::toString).collect( Collectors.toList() );
+  
+  
+List<String> immutableList = getStream()
+                             .map(Object::toString)
+                             .collect(GuavaCollectors.toImmutableList());
 ```
 
 Suppliers are used when you want a specific child class of a Guava collection. These two methods are equivalent.
 
 ```java
-    final BiMap<String,String> hashBiMap = getSomeCollection().stream().collect( GuavaCollectors.toBiMap(keyFunction(), valueFunction() );
-    final BiMap<String,String> anotherHashBiMap = getSomeCollection().stream().collect( GuavaCollectors.toBiMap( ()-> HashBiMap.create(), keyFunction(), valueFunction() );
+BiMap<String,String> hashBiMap = getStream()
+                                .collect(GuavaCollectors.toBiMap(
+                                    SomeObject::keyFunction, 
+                                    SomeObject::valueFunction );
+                                    
+                                
+BiMap<String,String> anotherHashBiMap = getStream()
+                                        .collect(GuavaCollectors.toBiMap( 
+                                            HashBiMap::create,
+                                            SomeObject::keyFunction, 
+                                            SomeObject::valueFunction );
 ```
 
 ##### Currently supported
