@@ -1,15 +1,18 @@
 guava-collectors
 ================
 
-###What?
+#### Note (4/15/2017)
+This library has been made obsolete by [ Guava 21.0 ](https://github.com/google/guava/wiki/Release21)
+
+### What?
 Collectors for Guava collections that mirror Java's Collectors class.
 
-####Why?
+### Why?
 I'm a big fan of the extended collection in Guava and the new features released with Java 8. 
 I didn't want to be forced into using only Java's collections because Collectors.toList() is easier to use than 
 writing a collector so I wrote them here (and tested them).
 
-###How?
+### How?
 If you're comfortable using the Collectors class then this shouldn't be anything new.
 
 As an example,
@@ -33,7 +36,7 @@ Suppliers are used when you want a specific child class of a Guava collection. T
     final BiMap<String,String> anotherHashBiMap = getSomeCollection().stream().collect( GuavaCollectors.toBiMap( ()-> HashBiMap.create(), keyFunction(), valueFunction() );
 ```
 
-#####Currently supported
+##### Currently supported
 * ImmutableList
 * ImmutableSet
 * ImmutableMultiSet/MultiSet
@@ -43,11 +46,11 @@ Suppliers are used when you want a specific child class of a Guava collection. T
 * ImmutableTable/Table
 * Multimap
 
-###Who? 
+### Who? 
 Built by me for the wonderful Guava library. 
 
-###Where? 
+### Where? 
 That's a weird question.
 
-###When?
+### When?
 Also weird.
